@@ -1,0 +1,10 @@
+.toolbar-count { margin-left: auto; color: #96a0af; font-size: 9px; }
+.customer-person { display: flex; align-items: center; gap: 9px; padding: 0; border: 0; background: none; cursor: pointer; text-align: left; }
+.customer-person:hover strong { color: #4778ed; }
+.muted-cell { color: #909bad !important; font-size: 9px !important; }
+.detail-modal { max-width: 430px; }
+.customer-detail { padding: 24px; text-align: center; }
+.detail-avatar { display: grid; width: 58px; height: 58px; margin: auto; place-items: center; color: #5578cc; border-radius: 18px; background: #edf2ff; font-size: 17px; font-weight: 750; }
+.customer-detail h2 { margin: 12px 0 3px; color: #24334b; font-size: 18px; }.customer-detail > p { margin: 0 0 10px; color: #8d98a9; font-size: 10px; }
+.customer-detail dl { margin: 20px 0; text-align: left; }.customer-detail dl div { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid #eef0f4; }.customer-detail dt { color: #8e99a9; font-size: 9px; }.customer-detail dd { margin: 0; color: #46536a; font-size: 9px; text-align: right; }
+.customer-detail .button-primary { margin: 0 auto; }

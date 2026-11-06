@@ -1,0 +1,61 @@
+<main class="signup-page">
+  <section class="signup-visual">
+    <a class="signup-brand" routerLink="/signup" aria-label="OmniCRM"><span class="brand-mark"><i class="bi bi-layers-half"></i></span><span>Omni<span>CRM</span></span></a>
+    <div class="signup-visual-content">
+      <span class="visual-eyebrow">A PRACTICAL CUSTOMER WORKSPACE</span>
+      <h1>Keep customer work<br><span>easy to follow.</span></h1>
+      <p>Start with a local demo and keep contacts, deals, and follow-ups together in one place.</p>
+      <div class="signup-benefits">
+        <div><span><i class="bi bi-people"></i></span><div><strong>Customer records</strong><small>Keep contact details and company notes together.</small></div></div>
+        <div><span><i class="bi bi-kanban"></i></span><div><strong>Deals and stages</strong><small>See what is open, won, or still needs a follow-up.</small></div></div>
+        <div><span><i class="bi bi-check2-square"></i></span><div><strong>Next steps</strong><small>Keep tasks and due dates close to the work.</small></div></div>
+      </div>
+    </div>
+    <div class="signup-visual-footer"><i class="bi bi-shield-check"></i> A focused workspace for customer-first teams</div>
+  </section>
+
+  <section class="signup-panel">
+    <div class="signup-card">
+      <a class="signup-mobile-brand" routerLink="/signup"><span class="brand-mark"><i class="bi bi-layers-half"></i></span> Omni<span>CRM</span></a>
+      <header class="signup-heading"><span class="signup-kicker">GET STARTED</span><h2>Create your account</h2><p>Set up your OmniCRM demo workspace in a few steps.</p></header>
+      <div class="signup-note"><i class="bi bi-info-circle"></i><span>This demo account is stored in this browser. Your password is saved as a hash, not plain text.</span></div>
+      @if (errorMessage) { <div class="signup-error-banner" role="alert"><i class="bi bi-exclamation-circle"></i>{{ errorMessage }}</div> }
+
+      <form [formGroup]="form" (ngSubmit)="signUp()" novalidate>
+        <div class="signup-field">
+          <label for="full-name">Full name</label>
+          <div class="signup-input-wrap"><i class="bi bi-person"></i><input id="full-name" type="text" autocomplete="name" formControlName="name" placeholder="e.g. Rahul Sharma" [class.invalid]="form.controls.name.touched && form.controls.name.invalid"></div>
+          @if (form.controls.name.touched && form.controls.name.hasError('required')) { <small class="signup-field-error">Enter your name.</small> }
+          @else if (form.controls.name.touched && form.controls.name.hasError('maxlength')) { <small class="signup-field-error">Name must be 80 characters or fewer.</small> }
+        </div>
+        <div class="signup-field">
+          <label for="signup-email">Work email</label>
+          <div class="signup-input-wrap"><i class="bi bi-envelope"></i><input id="signup-email" type="email" autocomplete="email" formControlName="email" placeholder="you@company.com" [class.invalid]="form.controls.email.touched && form.controls.email.invalid"></div>
+          @if (form.controls.email.touched && form.controls.email.hasError('required')) { <small class="signup-field-error">Enter your email address.</small> }
+          @else if (form.controls.email.touched && form.controls.email.hasError('email')) { <small class="signup-field-error">Enter a valid email address.</small> }
+        </div>
+        <div class="signup-password-grid">
+          <div class="signup-field">
+            <label for="signup-password">Password</label>
+            <div class="signup-input-wrap"><i class="bi bi-lock"></i><input id="signup-password" [type]="showPassword ? 'text' : 'password'" autocomplete="new-password" formControlName="password" placeholder="At least 8 characters" [class.invalid]="form.controls.password.touched && form.controls.password.invalid"><button type="button" class="signup-password-toggle" [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'" (click)="showPassword = !showPassword"><i class="bi" [class.bi-eye]="!showPassword" [class.bi-eye-slash]="showPassword"></i></button></div>
+            @if (form.controls.password.touched && form.controls.password.hasError('required')) { <small class="signup-field-error">Create a password.</small> }
+            @else if (form.controls.password.touched && form.controls.password.hasError('minlength')) { <small class="signup-field-error">Use at least 8 characters.</small> }
+          </div>
+          <div class="signup-field">
+            <label for="confirm-password">Confirm password</label>
+            <div class="signup-input-wrap"><i class="bi bi-lock"></i><input id="confirm-password" [type]="showConfirmation ? 'text' : 'password'" autocomplete="new-password" formControlName="confirmPassword" placeholder="Re-enter password" [class.invalid]="form.controls.confirmPassword.touched && (form.controls.confirmPassword.invalid || passwordsDoNotMatch)"><button type="button" class="signup-password-toggle" [attr.aria-label]="showConfirmation ? 'Hide confirmation' : 'Show confirmation'" (click)="showConfirmation = !showConfirmation"><i class="bi" [class.bi-eye]="!showConfirmation" [class.bi-eye-slash]="showConfirmation"></i></button></div>
+            @if (form.controls.confirmPassword.touched && form.controls.confirmPassword.hasError('required')) { <small class="signup-field-error">Confirm your password.</small> }
+            @else if (passwordsDoNotMatch) { <small class="signup-field-error">Passwords do not match.</small> }
+          </div>
+        </div>
+        <label class="signup-check-row"><input type="checkbox" formControlName="acceptTerms"><span class="signup-custom-check"><i class="bi bi-check"></i></span><span>I agree to the <a href="mailto:admin@omnicrm.in?subject=Terms%20of%20use">Terms of Use</a> and <a href="mailto:admin@omnicrm.in?subject=Privacy%20policy">Privacy Policy</a>.</span></label>
+        @if (form.controls.acceptTerms.touched && form.controls.acceptTerms.invalid) { <small class="signup-field-error terms-error">Please accept the terms to continue.</small> }
+        <label class="signup-check-row remember-signup"><input type="checkbox" formControlName="rememberMe"><span class="signup-custom-check"><i class="bi bi-check"></i></span><span>Keep me signed in</span></label>
+        <button class="signup-submit" type="submit" [disabled]="submitting"><span>{{ submitting ? 'Creating workspace…' : 'Create account' }}</span><i class="bi bi-arrow-right"></i></button>
+      </form>
+
+      <p class="signup-switch">Already have an account? <a routerLink="/login">Sign in</a></p>
+    </div>
+    <footer class="signup-footer"><span>© 2026 OmniCRM</span><a href="mailto:support@omnicrm.in"><i class="bi bi-question-circle"></i> Need help?</a></footer>
+  </section>
+</main>

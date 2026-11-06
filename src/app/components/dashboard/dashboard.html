@@ -1,0 +1,34 @@
+<section class="welcome-row">
+  <div><div class="eyebrow"><span class="eyebrow-line"></span> WORKSPACE OVERVIEW</div><h2>{{ greeting }}, {{ auth.currentUser.name }}</h2><p>A quick look at your customers, deals, and next steps.</p></div>
+  <button class="btn btn-primary" type="button" (click)="printReport()"><i class="bi bi-printer"></i> Print overview</button>
+</section>
+
+<section class="stats-grid">
+  <article class="stat-card"><div class="stat-top"><span>Customers</span><span class="stat-icon blue"><i class="bi bi-people"></i></span></div><div class="stat-value">{{ customerMetric | number }}</div><div class="stat-foot"><span>{{ activeCustomerCount }} active</span><span>in this workspace</span></div></article>
+  <article class="stat-card"><div class="stat-top"><span>Leads</span><span class="stat-icon violet"><i class="bi bi-person-lines-fill"></i></span></div><div class="stat-value">{{ leadMetric | number }}</div><div class="stat-foot"><span>{{ newLeadCount }} new</span><span>awaiting follow-up</span></div></article>
+  <article class="stat-card"><div class="stat-top"><span>Open deals</span><span class="stat-icon amber"><i class="bi bi-kanban"></i></span></div><div class="stat-value">{{ activeDeals }}</div><div class="stat-foot"><span>{{ openPipelineValue | currency:'INR':'symbol':'1.0-0' }}</span><span>in pipeline</span></div></article>
+  <article class="stat-card"><div class="stat-top"><span>Closed won</span><span class="stat-icon green"><i class="bi bi-currency-rupee"></i></span></div><div class="stat-value">{{ wonRevenue | currency:'INR':'symbol':'1.0-0' }}</div><div class="stat-foot"><span>{{ wonDeals }} {{ wonDeals === 1 ? 'deal' : 'deals' }}</span><span>marked won</span></div></article>
+</section>
+
+<section class="dashboard-charts">
+  <article class="panel chart-panel growth-panel"><div class="panel-heading"><div><h3>Leads by status</h3><p>Where each lead stands today</p></div></div><div class="chart-area"><canvas #growthChart aria-label="Lead counts by status"></canvas></div><div class="chart-foot"><span class="chart-legend blue-dot"></span><span>{{ leadMetric }} leads</span><span class="chart-note">Current records</span></div></article>
+  <article class="panel chart-panel sales-panel"><div class="panel-heading"><div><h3>Deal value by stage</h3><p>Open and closed deal values</p></div></div><div class="chart-area"><canvas #salesChart aria-label="Deal value by sales stage"></canvas></div><div class="sales-total"><span>Closed won</span><strong>{{ wonRevenue | currency:'INR':'symbol':'1.0-0' }}</strong><span class="sales-won">{{ wonDeals }} {{ wonDeals === 1 ? 'deal' : 'deals' }}</span></div></article>
+</section>
+
+<section class="dashboard-bottom">
+  <article class="panel conversion-panel"><div class="panel-heading"><div><h3>Lead mix</h3><p>Current lead statuses</p></div><a class="more-button" routerLink="/leads" aria-label="View leads"><i class="bi bi-arrow-up-right"></i></a></div><div class="conversion-body"><div class="donut-wrap"><canvas #conversionChart aria-label="Lead status distribution"></canvas><div class="donut-center"><strong>{{ leadMetric }}</strong><small>leads</small></div></div><div class="conversion-legend">@for (item of leadStatusSummary; track item.label) { <div><i class="legend-dot" [ngClass]="item.color"></i><span>{{ item.label }}</span><strong>{{ item.count }}</strong></div> }</div></div></article>
+  <article class="panel activity-panel"><div class="panel-heading"><div><h3>Recent activity</h3><p>Your latest customer conversations</p></div><a class="text-link" routerLink="/communication">View all <i class="bi bi-arrow-right"></i></a></div>
+    <div class="mini-table">
+      @for (item of recentActivity; track item.id) {
+        <div class="mini-row"><span class="mini-avatar"><i class="bi {{ channelIcon(item.channel) }}"></i></span><span class="mini-name"><strong>{{ item.customer }}</strong><small>{{ item.summary }}</small></span><span class="status-pill" [class]="item.status.toLowerCase()">{{ item.channel }}</span></div>
+      }
+    </div>
+  </article>
+  <article class="panel followup-panel"><div class="panel-heading"><div><h3>Upcoming follow-ups</h3><p>Stay on top of your next steps</p></div><a class="text-link" routerLink="/tasks">View all <i class="bi bi-arrow-right"></i></a></div>
+    <div class="followup-list">
+      @for (task of followUps; track task.id) {
+        <div class="followup-item"><span class="followup-check"><i class="bi bi-clock"></i></span><span class="followup-copy"><strong>{{ task.title }}</strong><small>{{ task.customer }}</small></span><span class="followup-date">{{ task.dueDate | date:'MMM d' }}</span></div>
+      } @empty { <div class="empty-state">All caught up! No follow-ups pending.</div> }
+    </div>
+  </article>
+</section>

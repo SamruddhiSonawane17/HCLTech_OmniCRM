@@ -1,0 +1,13 @@
+@if (isLoginPage) {
+  <router-outlet></router-outlet>
+} @else {
+  <div class="app-shell">
+    <app-sidebar [mobileOpen]="mobileOpen" (closeMenu)="mobileOpen = false"></app-sidebar>
+    <div class="main-area">
+      <app-navbar (menuClick)="mobileOpen = !mobileOpen"></app-navbar>
+      <main class="page-content">
+        <router-outlet></router-outlet>
+      </main>
+    </div>
+  </div>
+}

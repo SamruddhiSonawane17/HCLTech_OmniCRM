@@ -1,0 +1,44 @@
+<header class="topbar">
+  <div class="heading-wrap">
+    <button class="mobile-menu icon-button" aria-label="Open navigation" (click)="menuClick.emit()"><i class="bi bi-list"></i></button>
+    <div><h1>{{ title }}</h1><p>{{ today | date:'EEEE, MMMM d, y' }} <span class="dot-separator">·</span> Demo workspace</p></div>
+  </div>
+  <div class="top-actions">
+    <div class="search-wrap">
+      <i class="bi bi-search"></i>
+      <input [(ngModel)]="search" (focus)="showSearch = true" (blur)="showSearch = false" placeholder="Search anything..." aria-label="Search customers and leads">
+      <kbd>⌘ K</kbd>
+      @if (showSearch && results.length) {
+        <div class="search-results">
+          @for (result of results; track result.name + result.detail) {
+            <button (mousedown)="goTo(result.route)"><span class="search-result-icon"><i class="bi bi-person"></i></span><span>{{ result.name }}<small>{{ result.detail }}</small></span><i class="bi bi-arrow-up-left ms-auto"></i></button>
+          }
+        </div>
+      } @else if (showSearch && search.trim()) {
+        <div class="search-results empty-result">No matching customers or leads</div>
+      }
+    </div>
+    <div class="action-popover">
+      <button class="icon-button notification-button" aria-label="Notifications" (click)="showNotifications = !showNotifications; showProfile = false"><i class="bi bi-bell"></i></button>
+      @if (showNotifications) {
+        <div class="popover-menu notification-menu">
+          <strong>Notifications</strong>
+          <p><i class="bi bi-info-circle"></i><span><b>No live alerts</b><small>This demo workspace does not send notifications.</small></span></p>
+          <button class="popover-link" (click)="goTo('/tasks'); showNotifications = false">Open follow-ups <i class="bi bi-arrow-right"></i></button>
+        </div>
+      }
+    </div>
+    <div class="profile-wrap">
+      <button class="profile-button" (click)="showProfile = !showProfile; showNotifications = false">
+        <span class="avatar avatar-indigo">{{ userInitials }}</span><span class="profile-name">{{ auth.currentUser.name }}<small>{{ auth.currentUser.email }}</small></span><i class="bi bi-chevron-down"></i>
+      </button>
+      @if (showProfile) {
+        <div class="popover-menu profile-menu">
+          <button (click)="goTo('/settings'); showProfile = false"><i class="bi bi-person"></i>My profile</button>
+          <button (click)="goTo('/settings'); showProfile = false"><i class="bi bi-gear"></i>Workspace settings</button>
+          <button (click)="signOut()"><i class="bi bi-box-arrow-right"></i>Sign out</button>
+        </div>
+      }
+    </div>
+  </div>
+</header>

@@ -1,0 +1,60 @@
+:host { display: block; min-height: 100vh; }
+.login-page { display: grid; grid-template-columns: minmax(0,1.08fr) minmax(430px,.92fr); min-height: 100vh; background: #fff; }
+.login-visual { position: relative; display: flex; flex-direction: column; min-height: 100vh; overflow: hidden; padding: 34px clamp(35px,6vw,92px) 25px; color: white; background: #101b32; isolation: isolate; }
+.login-visual::before { position: absolute; z-index: -1; inset: 0; background: radial-gradient(ellipse at 75% 65%,#253c6e 0%,transparent 53%),linear-gradient(145deg,#13213c 0%,#101b32 56%,#18274a 100%); content: ''; }
+.visual-glow { position: absolute; z-index: -1; border-radius: 50%; filter: blur(1px); pointer-events: none; }.glow-one { top: 16%; right: 4%; width: 310px; height: 310px; border: 1px solid #759bff20; box-shadow: 0 0 0 35px #759bff08,0 0 0 80px #759bff05; }.glow-two { right: 28%; bottom: -240px; width: 420px; height: 420px; border: 1px solid #a68eff16; }
+.login-brand,.mobile-brand { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 11px; width: fit-content; color: white; font-size: 19px; font-weight: 800; letter-spacing: -.5px; text-decoration: none; }.login-brand > span:last-child > span,.mobile-brand > span:last-child { color: #90b2ff; }
+.brand-mark { display: grid; width: 39px; height: 39px; place-items: center; color: white; border-radius: 12px; background: linear-gradient(140deg,#4f8cff,#6949e8); font-size: 20px; box-shadow: 0 7px 20px #416fe340; }
+.visual-content { position: relative; z-index: 1; width: min(100%,520px); margin: auto auto; padding: 56px 0 36px; }
+.visual-eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 7px 10px; color: #a9c2ff; border: 1px solid #708ac23c; border-radius: 30px; background: #31466b44; font-size: 8px; font-weight: 800; letter-spacing: 1.1px; }.visual-eyebrow i { color: #c3adff; font-size: 11px; }
+.visual-content h1 { margin: 22px 0 12px; color: #f8faff; font-family: 'Manrope','DM Sans',sans-serif; font-size: clamp(42px,5vw,63px); font-weight: 750; line-height: 1.08; letter-spacing: -2.7px; }.visual-content h1 span { color: #90b2ff; }
+.visual-content > p { max-width: 410px; margin: 0; color: #aebbd0; font-size: 12px; line-height: 1.8; }
+.visual-dashboard { position: relative; width: min(100%,410px); margin-top: 40px; }
+.mock-window { padding: 15px 16px 13px; border: 1px solid #ffffff20; border-radius: 12px; background: #f9fbff; box-shadow: 0 25px 70px #080f1f45; transform: perspective(900px) rotateY(-5deg) rotateX(2deg); }
+.mock-topbar { display: flex; align-items: center; gap: 13px; padding-bottom: 12px; color: #778398; border-bottom: 1px solid #edf0f5; font-size: 8px; }.mock-topbar > i { margin-left: auto; }.mock-dots { display: flex; gap: 3px; }.mock-dots i { width: 5px; height: 5px; border-radius: 50%; background: #e48d87; }.mock-dots i:nth-child(2) { background: #e6bd67; }.mock-dots i:nth-child(3) { background: #65b995; }
+.mock-summary { display: flex; justify-content: space-between; align-items: flex-start; padding-top: 13px; }.mock-summary > div { display: grid; gap: 4px; }.mock-summary small { color: #929cad; font-size: 8px; }.mock-summary strong { color: #27374f; font-size: 18px; letter-spacing: -.4px; }
+.mock-bottom { display: flex; align-items: center; gap: 7px; padding-top: 11px; color: #99a3b2; font-size: 7px; }.mock-bottom > span:first-child { display: flex; align-items: center; gap: 4px; }.mock-bottom > span:first-child i { width: 6px; height: 6px; border-radius: 50%; background: #6589ec; }.mock-bottom b { margin-left: auto; color: #2e9b7a; font-size: 8px; }
+.visual-footer { position: relative; z-index: 1; display: flex; align-items: center; gap: 11px; color: #8e9db5; font-size: 8px; }
+.login-panel { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 44px clamp(30px,6vw,88px) 22px; background: #fff; }.login-card { width: min(100%,380px); margin: auto; }.mobile-brand { display: none; color: #17243b; }.login-heading { margin-bottom: 24px; }.welcome-tag { color: #547be0; font-size: 8px; font-weight: 800; letter-spacing: 1.25px; }.login-heading h2 { margin: 9px 0 6px; color: #1d2b42; font-family: 'Manrope','DM Sans',sans-serif; font-size: 22px; font-weight: 750; letter-spacing: -.7px; }.login-heading p { margin: 0; color: #8b96a7; font-size: 10px; }
+.recovery-message { display: flex; align-items: flex-start; gap: 8px; padding: 10px 11px; margin: -7px 0 17px; color: #9c7a40; border: 1px solid #f4e7ca; border-radius: 7px; background: #fffaf0; font-size: 8px; line-height: 1.55; }.recovery-message i { flex: 0 0 auto; color: #c68e37; font-size: 11px; }
+.recovery-message.error-message { color: #a64b45; border-color: #eed8d3; background: #fff6f4; }.recovery-message.error-message i { color: #b94f45; }
+.login-field { display: grid; gap: 7px; margin-top: 15px; }.login-field label,.password-label label { color: #435168; font-size: 9px; font-weight: 700; }.password-label { display: flex; align-items: center; justify-content: space-between; }.forgot-link { padding: 0; color: #5278df; border: 0; background: transparent; cursor: pointer; font-size: 8px; font-weight: 650; }.forgot-link:hover { color: #315fd0; }
+.input-wrap { position: relative; display: flex; align-items: center; }.input-wrap > i:first-child { position: absolute; left: 11px; color: #9aa5b4; font-size: 12px; pointer-events: none; }.input-wrap input { width: 100%; height: 40px; padding: 0 37px; color: #34425a; border: 1px solid #e3e8ef; border-radius: 7px; outline: 0; background: #fff; font-size: 10px; transition: border-color .2s,box-shadow .2s; }.input-wrap input::placeholder { color: #adb5c1; }.input-wrap input:focus { border-color: #88a6f1; box-shadow: 0 0 0 3px #4778ed15; }.input-wrap input.invalid { border-color: #e58b90; }.password-toggle { position: absolute; right: 8px; display: grid; width: 26px; height: 26px; place-items: center; color: #929cad; border: 0; border-radius: 5px; background: transparent; cursor: pointer; font-size: 12px; }.password-toggle:hover { color: #4778ed; background: #f4f6fb; }.field-error { color: #ce5e65; font-size: 8px; }
+.remember-row { position: relative; display: flex; align-items: center; gap: 8px; width: fit-content; margin: 15px 0 19px; color: #778398; cursor: pointer; font-size: 9px; }.remember-row input { position: absolute; width: 1px; height: 1px; opacity: 0; }.custom-check { display: grid; width: 14px; height: 14px; place-items: center; color: transparent; border: 1px solid #dce2eb; border-radius: 4px; background: white; font-size: 9px; }.remember-row input:checked + .custom-check { color: white; border-color: #4a78e8; background: #4a78e8; }.remember-row input:focus-visible + .custom-check { outline: 3px solid #4778ed55; outline-offset: 2px; }
+.sign-in-button { display: flex; align-items: center; justify-content: space-between; width: 100%; height: 42px; padding: 0 14px; color: white; border: 0; border-radius: 7px; background: #4778ed; box-shadow: 0 5px 13px #4778ed35; cursor: pointer; font-size: 10px; font-weight: 700; transition: .2s; }.sign-in-button:hover { background: #3569df; box-shadow: 0 7px 17px #4778ed45; transform: translateY(-1px); }.sign-in-button:disabled { opacity: .7; cursor: wait; transform: none; }.sign-in-button i { font-size: 13px; }
+.login-terms { margin: 17px 0 0; color: #a0a9b6; font-size: 8px; line-height: 1.6; text-align: center; }.login-terms a { color: #7185b8; text-decoration: none; }.login-terms a:hover { color: #4778ed; text-decoration: underline; }
+.login-footer { display: flex; justify-content: space-between; width: min(100%,380px); color: #a0a9b6; font-size: 8px; }.login-footer a { color: #78869c; text-decoration: none; }.login-footer a:hover { color: #4778ed; }.login-footer i { margin-right: 4px; }
+@media (max-width: 900px) { .login-page { grid-template-columns: minmax(0,1fr) minmax(390px,.9fr); }.login-visual { padding-right: 34px; padding-left: 34px; }.visual-content h1 { font-size: 47px; } }
+@media (max-width: 700px) { .login-page { display: block; min-height: 100svh; }.login-visual { display: none; }.login-panel { min-height: 100svh; padding: 32px 24px 20px; }.login-card { margin: auto; }.mobile-brand { display: inline-flex; margin-bottom: 38px; }.login-heading h2 { font-size: 21px; } }
+@media (max-width: 380px) { .login-panel { padding-right: 18px; padding-left: 18px; }.login-heading h2 { font-size: 19px; } }
+:host .login-visual { background: #263c30; }
+:host .login-visual::before { background: linear-gradient(145deg, #2d4436, #22362b); }
+:host .visual-glow { display: none; }
+:host .visual-eyebrow { padding: 0; color: #c2d0bd; border: 0; border-radius: 0; background: transparent; font-size: 10px; font-weight: 650; letter-spacing: .7px; }
+:host .visual-eyebrow i { color: #d5bd8e; }
+:host .visual-content h1 { font-family: Georgia, 'Times New Roman', serif; font-weight: 400; letter-spacing: -1.6px; }
+:host .visual-content h1 span { color: #c8d3ad; }
+:host .visual-footer { color: #c2cbbd; font-size: 10px; }
+:host .login-panel { background: #fbfaf7; }
+:host .login-heading h2 { color: #29372e; font-family: Georgia, 'Times New Roman', serif; font-weight: 500; letter-spacing: -.3px; }
+:host .welcome-tag, :host .forgot-link { color: #41664e; }
+:host .input-wrap input { border-color: #dfdfd7; border-radius: 6px; font-size: 12px; }
+:host .input-wrap input:focus { border-color: #78927d; box-shadow: 0 0 0 3px #41664e14; }
+:host .sign-in-button { background: #41664e; box-shadow: none; }
+:host .sign-in-button:hover { background: #34543f; }
+:host .brand-mark { border-radius: 8px; background: #52745b; box-shadow: none; }
+:host .mock-window { border-color: #e3e3da; border-radius: 8px; box-shadow: 0 12px 30px #17251d20; transform: none; }
+:host .mock-topbar { padding-bottom: 10px; font-size: 10px; }
+:host .mock-summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 16px 0; border-bottom: 1px solid #edf0e8; }
+:host .mock-summary > div { gap: 6px; padding-left: 9px; border-left: 1px solid #e8e9e1; }
+:host .mock-summary > div:first-child { padding-left: 0; border-left: 0; }
+:host .mock-summary small { font-size: 9px; }
+:host .mock-summary strong { font-size: 15px; }
+:host .mock-bottom { padding-top: 12px; font-size: 9px; }
+:host .mock-bottom > span:first-child i { background: #52745b; }
+:host .mock-bottom b { color: #52745b; font-size: 9px; }
+:host .welcome-tag { font-size: 10px; }
+:host .login-heading p { font-size: 12px; }
+:host .login-field label, :host .password-label label { font-size: 11px; }
+:host .forgot-link, :host .remember-row { font-size: 10px; }
+:host .field-error, :host .login-terms, :host .login-footer { font-size: 10px; }

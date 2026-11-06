@@ -1,0 +1,8 @@
+:host { display: block; min-height: 100vh; }
+.app-shell { min-height: 100vh; }
+.main-area { min-height: 100vh; margin-left: 252px; }
+.page-content { padding: 28px 34px 42px; max-width: 1680px; margin: 0 auto; }
+@media (max-width: 900px) {
+  .main-area { margin-left: 0; }
+  .page-content { padding: 22px 18px 34px; }
+}

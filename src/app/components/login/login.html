@@ -1,0 +1,56 @@
+<main class="login-page">
+  <section class="login-visual">
+    <div class="visual-glow glow-one"></div>
+    <div class="visual-glow glow-two"></div>
+    <a class="login-brand" routerLink="/login" aria-label="OmniCRM home">
+      <span class="brand-mark"><i class="bi bi-layers-half"></i></span>
+      <span>Omni<span>CRM</span></span>
+    </a>
+    <div class="visual-content">
+      <span class="visual-eyebrow">CUSTOMER WORK, IN ONE PLACE</span>
+      <h1>Keep the details.<br><span>Keep the promises.</span></h1>
+      <p>Track customer details, open deals, and the next conversation without switching between spreadsheets.</p>
+      <div class="visual-dashboard" aria-hidden="true">
+        <div class="mock-window">
+          <div class="mock-topbar"><span class="mock-dots"><i></i><i></i><i></i></span><span>Sample workspace</span><i class="bi bi-three-dots"></i></div>
+          <div class="mock-summary"><div><small>Customers</small><strong>12</strong></div><div><small>Open deals</small><strong>8</strong></div><div><small>Closed won</small><strong>₹2.65L</strong></div></div>
+          <div class="mock-bottom"><span><i></i> Sample records</span><b>Saved in this browser</b></div>
+        </div>
+      </div>
+    </div>
+    <div class="visual-footer"><span>Sample records are stored in this browser.</span></div>
+  </section>
+
+  <section class="login-panel">
+    <div class="login-card">
+      <a class="mobile-brand" routerLink="/login"><span class="brand-mark"><i class="bi bi-layers-half"></i></span> Omni<span>CRM</span></a>
+      <div class="login-heading"><span class="welcome-tag">YOUR WORKSPACE</span><h2>Sign in to your workspace</h2><p>Enter your details to continue to OmniCRM.</p></div>
+
+      @if (showRecoveryMessage) {
+        <div class="recovery-message" role="status"><i class="bi bi-info-circle"></i> Password recovery is not available here. You can create a local demo session from the sign-up page.</div>
+      }
+      @if (signInError) {
+        <div class="recovery-message error-message" role="alert"><i class="bi bi-exclamation-circle"></i> {{ signInError }}</div>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="signIn()" novalidate>
+        <div class="login-field">
+          <label for="email">Work email</label>
+          <div class="input-wrap"><i class="bi bi-envelope"></i><input id="email" type="email" autocomplete="username" formControlName="email" placeholder="you@company.com" [class.invalid]="form.controls.email.touched && form.controls.email.invalid"></div>
+          @if (form.controls.email.touched && form.controls.email.hasError('required')) { <small class="field-error">Enter your email address.</small> }
+          @else if (form.controls.email.touched && form.controls.email.hasError('email')) { <small class="field-error">Enter a valid email address.</small> }
+        </div>
+        <div class="login-field">
+          <div class="password-label"><label for="password">Password</label><button type="button" class="forgot-link" (click)="showRecoveryMessage = !showRecoveryMessage">Forgot password?</button></div>
+          <div class="input-wrap"><i class="bi bi-lock"></i><input id="password" [type]="showPassword ? 'text' : 'password'" autocomplete="current-password" formControlName="password" placeholder="Enter your password" [class.invalid]="form.controls.password.touched && form.controls.password.invalid"><button type="button" class="password-toggle" [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'" (click)="showPassword = !showPassword"><i class="bi" [class.bi-eye]="!showPassword" [class.bi-eye-slash]="showPassword"></i></button></div>
+          @if (form.controls.password.touched && form.controls.password.hasError('required')) { <small class="field-error">Enter your password.</small> }
+        </div>
+        <label class="remember-row"><input type="checkbox" formControlName="rememberMe"><span class="custom-check"><i class="bi bi-check"></i></span><span>Keep me signed in</span></label>
+        <button class="sign-in-button" type="submit" [disabled]="submitting"><span>{{ submitting ? 'Signing in…' : 'Sign in' }}</span><i class="bi bi-arrow-right"></i></button>
+      </form>
+
+      <p class="login-terms">New to OmniCRM? <a routerLink="/signup">Create an account</a></p>
+    </div>
+    <footer class="login-footer"><span>© 2026 OmniCRM</span><a href="mailto:support@omnicrm.in"><i class="bi bi-question-circle"></i> Need help?</a></footer>
+  </section>
+</main>

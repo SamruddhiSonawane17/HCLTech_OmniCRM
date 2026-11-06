@@ -1,0 +1,32 @@
+<section class="page-heading"><div><h2>Communication hub</h2><p>Keep every customer conversation in context across channels.</p></div><div class="heading-actions"><button class="button-primary" (click)="modalOpen = true"><i class="bi bi-plus-lg"></i> Log interaction</button></div></section>
+@if (noticeVisible) { <div class="demo-notice"><span><i class="bi bi-info-circle"></i></span><div><strong>Communication activity, all together</strong><p>These are demonstration records only. Email, phone, WhatsApp and social channels are not connected to external services.</p></div><button aria-label="Dismiss notice" (click)="noticeVisible = false"><i class="bi bi-x-lg"></i></button></div> }
+<section class="channel-grid">
+  @for (channel of channels; track channel) {
+    <button class="channel-card" [class.channel-selected]="channelFilter === channel" (click)="channelFilter = channelFilter === channel ? 'All channels' : channel">
+      <span class="channel-icon" [class]="channel.toLowerCase().replace(' ', '-')"><i class="bi {{ icon(channel) }}"></i></span><span><strong>{{ channel }}</strong><small>View interactions</small></span><i class="bi bi-arrow-up-right channel-arrow"></i>
+    </button>
+  }
+</section>
+<section class="surface interactions-surface">
+  <div class="interaction-header"><div><h3>Recent interactions</h3><p>{{ filtered.length }} activity records <span>·</span> {{ channelCount }} active channels</p></div><div class="interaction-tools"><label class="field-search"><i class="bi bi-search"></i><input [(ngModel)]="search" placeholder="Search interactions..." aria-label="Search interactions"></label><select class="field-control" [(ngModel)]="channelFilter" aria-label="Filter by channel"><option>All channels</option>@for(channel of channels; track channel){<option>{{ channel }}</option>}</select></div></div>
+  <div class="interaction-list">
+    @for (item of filtered; track item.id) {
+      <article class="interaction-row">
+        <span class="interaction-icon" [class]="item.channel.toLowerCase().replace(' ', '-')"><i class="bi {{ icon(item.channel) }}"></i></span>
+        <div class="interaction-content"><div class="interaction-title"><strong>{{ item.customer }}</strong><span class="interaction-channel">{{ item.channel }}</span></div><p>{{ item.summary }}</p><small>{{ item.date | date:'MMM d, y · h:mm a' }}</small></div>
+        <span class="badge" [ngClass]="'badge-' + item.status.toLowerCase()">{{ item.status }}</span>
+      </article>
+    } @empty { <div class="empty-interactions"><i class="bi bi-chat-square-text"></i><strong>No interactions found</strong><span>Adjust your search or log a new interaction.</span></div> }
+  </div>
+  <div class="table-footer"><span>Showing {{ filtered.length }} interactions</span><span>Records are saved locally in this browser</span></div>
+</section>
+@if (modalOpen) { <div class="modal-backdrop" (click)="modalOpen = false"><section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="interaction-modal-title" (click)="$event.stopPropagation()">
+  <header class="modal-header"><div><h3 id="interaction-modal-title">Log an interaction</h3><p>Record a customer touchpoint for your team.</p></div><button class="modal-close" aria-label="Close dialog" (click)="modalOpen = false"><i class="bi bi-x-lg"></i></button></header>
+  <form [formGroup]="form" (ngSubmit)="save()"><div class="modal-body">
+    <div class="form-field"><label>Customer name <span>*</span></label><input class="form-control" formControlName="customer" placeholder="Customer name"><small class="form-error" *ngIf="form.controls.customer.touched && form.controls.customer.invalid">Customer is required.</small></div>
+    <div class="form-field"><label>Channel</label><select class="form-control" formControlName="channel">@for(channel of channels; track channel){<option>{{ channel }}</option>}</select></div>
+    <div class="form-field"><label>Date and time</label><input class="form-control" type="datetime-local" formControlName="date"></div>
+    <div class="form-field"><label>Status</label><select class="form-control" formControlName="status"><option>Open</option><option>Scheduled</option><option>Completed</option></select></div>
+    <div class="form-field full"><label>Interaction summary <span>*</span></label><textarea class="form-control summary-input" formControlName="summary" placeholder="What did you discuss or agree on?"></textarea><small class="form-error" *ngIf="form.controls.summary.touched && form.controls.summary.invalid">Summary is required.</small></div>
+  </div><footer class="modal-footer"><button type="button" class="button-secondary" (click)="modalOpen = false">Cancel</button><button type="submit" class="button-primary"><i class="bi bi-check2"></i> Save interaction</button></footer></form>
+</section></div> }

@@ -1,0 +1,36 @@
+<section class="page-heading"><div><h2>Tasks & follow-ups</h2><p>Keep commitments visible and make sure no next step gets missed.</p></div><div class="heading-actions"><button class="button-primary" (click)="openAdd()"><i class="bi bi-plus-lg"></i> Create task</button></div></section>
+<section class="summary-cards">
+  <article class="summary-card task-summary"><span><i class="bi bi-check2-square"></i> Pending tasks</span><strong>{{ pending }}</strong><small>Need your attention</small></article>
+  <article class="summary-card task-summary"><span><i class="bi bi-check-circle"></i> Completed</span><strong>{{ completed }}</strong><small>Nice work, team</small></article>
+  <article class="summary-card task-summary"><span><i class="bi bi-exclamation-circle"></i> Overdue</span><strong [class.overdue-count]="overdue > 0">{{ overdue }}</strong><small>Past their due date</small></article>
+  <article class="summary-card task-summary"><span><i class="bi bi-calendar-event"></i> Upcoming follow-ups</span><strong>{{ upcoming }}</strong><small>Due in the next 7 days</small></article>
+</section>
+<section class="surface">
+  <div class="task-list-head"><div><h3>Your task list</h3><p>Tasks are saved locally and visible to this browser.</p></div><div class="toolbar-inline">
+    <label class="field-search"><i class="bi bi-search"></i><input [(ngModel)]="search" placeholder="Search tasks..." aria-label="Search tasks"></label>
+    <select class="field-control" [(ngModel)]="filter" aria-label="Filter tasks"><option>All tasks</option><option>Pending</option><option>Completed</option><option>Overdue</option></select>
+  </div></div>
+  <div class="task-list">
+    @for (task of filteredTasks; track task.id) {
+      <article class="task-row" [class.task-done]="task.completed">
+        <button class="task-check" [class.checked]="task.completed" [attr.aria-label]="task.completed ? 'Mark task pending' : 'Mark task completed'" (click)="toggle(task)"><i class="bi" [class.bi-check-lg]="task.completed"></i></button>
+        <div class="task-main"><strong>{{ task.title }}</strong><span><i class="bi bi-building"></i> {{ task.customer }}</span></div>
+        <div class="task-owner"><span class="owner-dot">{{ initials(task.assignedTo) }}</span><span>{{ task.assignedTo }}</span></div>
+        <div class="task-due" [class.due-overdue]="isOverdue(task)"><i class="bi bi-calendar3"></i> {{ task.dueDate | date:'MMM d, y' }} @if (isOverdue(task)) { <small>Overdue</small> }</div>
+        <span class="priority" [class]="task.priority.toLowerCase()"><i class="bi bi-flag-fill"></i> {{ task.priority }}</span>
+        <div class="table-actions"><button class="table-action" title="Edit task" aria-label="Edit task" (click)="openEdit(task)"><i class="bi bi-pencil"></i></button><button class="table-action delete" title="Delete task" aria-label="Delete task" (click)="delete(task)"><i class="bi bi-trash3"></i></button></div>
+      </article>
+    } @empty { <div class="task-empty"><i class="bi bi-check2-all"></i><strong>No tasks to show</strong><span>Create a task or change the current filters.</span></div> }
+  </div>
+  <div class="table-footer"><span>{{ filteredTasks.length }} tasks shown</span><span><i class="bi bi-lightning-charge"></i> Tip: check off tasks as you complete them.</span></div>
+</section>
+@if (modalOpen) { <div class="modal-backdrop" (click)="modalOpen = false"><section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="task-modal-title" (click)="$event.stopPropagation()">
+  <header class="modal-header"><div><h3 id="task-modal-title">{{ editingId ? 'Edit task' : 'Create a task' }}</h3><p>Assign a clear next step and due date.</p></div><button class="modal-close" aria-label="Close dialog" (click)="modalOpen = false"><i class="bi bi-x-lg"></i></button></header>
+  <form [formGroup]="form" (ngSubmit)="save()"><div class="modal-body">
+    <div class="form-field full"><label>Task title <span>*</span></label><input class="form-control" formControlName="title" placeholder="e.g. Send revised proposal"><small class="form-error" *ngIf="form.controls.title.touched && form.controls.title.invalid">Task title is required.</small></div>
+    <div class="form-field"><label>Customer <span>*</span></label><input class="form-control" formControlName="customer" placeholder="Customer name"><small class="form-error" *ngIf="form.controls.customer.touched && form.controls.customer.invalid">Customer is required.</small></div>
+    <div class="form-field"><label>Assigned employee</label><select class="form-control" formControlName="assignedTo">@for(employee of employees; track employee){<option>{{ employee }}</option>}</select></div>
+    <div class="form-field"><label>Due date <span>*</span></label><input class="form-control" type="date" formControlName="dueDate"><small class="form-error" *ngIf="form.controls.dueDate.touched && form.controls.dueDate.invalid">Due date is required.</small></div>
+    <div class="form-field"><label>Priority</label><select class="form-control" formControlName="priority"><option>High</option><option>Medium</option><option>Low</option></select></div>
+  </div><footer class="modal-footer"><button type="button" class="button-secondary" (click)="modalOpen = false">Cancel</button><button type="submit" class="button-primary"><i class="bi bi-check2"></i> {{ editingId ? 'Save changes' : 'Create task' }}</button></footer></form>
+</section></div> }

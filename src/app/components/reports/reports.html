@@ -1,0 +1,20 @@
+<section class="page-heading"><div><h2>Reports & analytics</h2><p>Understand performance, spot trends, and make your next move count.</p></div><div class="heading-actions"><select class="field-control period-select" [(ngModel)]="period" (ngModelChange)="updatePeriod()" aria-label="Select report period"><option>This year</option><option>Last 6 months</option><option>Last 30 days</option></select><button class="button-primary" (click)="exportCsv()"><i class="bi bi-download"></i> Export report</button></div></section>
+<section class="report-kpis">
+  <article class="report-kpi"><div class="report-kpi-icon rev"><i class="bi bi-currency-rupee"></i></div><span>Total revenue</span><strong>{{ revenue | currency:'INR':'symbol':'1.0-0' }}</strong><small><i class="bi bi-arrow-up-right"></i> From closed won deals</small></article>
+  <article class="report-kpi"><div class="report-kpi-icon lead"><i class="bi bi-person-lines-fill"></i></div><span>Lead conversion</span><strong>{{ conversionRate }}%</strong><small><i class="bi bi-arrow-up-right"></i> {{ leads.leads().length }} leads tracked</small></article>
+  <article class="report-kpi"><div class="report-kpi-icon customer"><i class="bi bi-people"></i></div><span>Customer acquisition</span><strong>{{ customers.customers().length }}</strong><small><i class="bi bi-arrow-up-right"></i> Customers in your workspace</small></article>
+  <article class="report-kpi"><div class="report-kpi-icon pipeline"><i class="bi bi-kanban"></i></div><span>Pipeline value</span><strong>{{ pipelineValue | currency:'INR':'symbol':'1.0-0' }}</strong><small><i class="bi bi-arrow-up-right"></i> Active opportunities</small></article>
+</section>
+<section class="reports-grid">
+  <article class="surface report-chart"><div class="report-chart-title"><div><h3>Monthly sales</h3><p>Revenue generated over the selected period</p></div><span class="chart-badge"><i class="bi bi-graph-up"></i> INR</span></div><div class="report-chart-area"><canvas #revenueChart aria-label="Monthly sales report chart"></canvas></div></article>
+  <article class="surface report-chart"><div class="report-chart-title"><div><h3>Customers by status</h3><p>Current customer records by status</p></div><span class="chart-badge green-badge"><i class="bi bi-people"></i> Records</span></div><div class="report-chart-area"><canvas #acquisitionChart aria-label="Customer counts by status"></canvas></div></article>
+  <article class="surface report-chart pipeline-analysis"><div class="report-chart-title"><div><h3>Sales pipeline analysis</h3><p>Deal distribution across each stage</p></div><span class="chart-badge violet-badge"><i class="bi bi-bar-chart"></i> Deals</span></div><div class="report-chart-area"><canvas #pipelineChart aria-label="Sales pipeline analysis chart"></canvas></div></article>
+  <article class="surface performance-panel"><div class="report-chart-title"><div><h3>Employee performance</h3><p>Closed won contribution by owner</p></div><span class="performance-period">This year</span></div>
+    <div class="performance-table"><div class="performance-th"><span>EMPLOYEE</span><span>DEALS</span><span>WON</span><span>VALUE</span></div>
+      @for(person of employeePerformance; track person.name) {
+        <div class="performance-row"><span class="performance-name"><span class="table-avatar">{{ initials(person.name) }}</span><strong>{{ person.name }}</strong></span><span>{{ person.deals }}</span><span>{{ person.won }}</span><strong class="performance-value">{{ person.value | currency:'INR':'symbol':'1.0-0' }}</strong></div>
+      }
+    </div>
+  </article>
+</section>
+<div class="report-footnote"><i class="bi bi-info-circle"></i> Charts use the records saved in this browser. Revenue is grouped by deal close date.</div>

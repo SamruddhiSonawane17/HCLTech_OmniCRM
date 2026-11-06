@@ -1,0 +1,39 @@
+<section class="page-heading"><div><h2>Sales pipeline</h2><p>Track every opportunity and keep deals moving toward close.</p></div><div class="heading-actions"><button class="button-primary" (click)="openAdd()"><i class="bi bi-plus-lg"></i> Add deal</button></div></section>
+<section class="pipeline-overview">
+  <article class="pipeline-kpi"><span class="kpi-icon kpi-blue"><i class="bi bi-cash-stack"></i></span><div><small>Open pipeline value</small><strong>{{ openValue | currency:'INR':'symbol':'1.0-0' }}</strong><em>Across {{ activeDealCount }} active deals</em></div></article>
+  <article class="pipeline-kpi"><span class="kpi-icon kpi-green"><i class="bi bi-trophy"></i></span><div><small>Closed won</small><strong>{{ wonValue | currency:'INR':'symbol':'1.0-0' }}</strong><em>{{ dealsIn('Closed Won').length }} deals this period</em></div></article>
+  <article class="pipeline-kpi"><span class="kpi-icon kpi-violet"><i class="bi bi-graph-up-arrow"></i></span><div><small>Win rate</small><strong>{{ conversion }}%</strong><em>Based on closed deals</em></div></article>
+  <article class="pipeline-kpi"><span class="kpi-icon kpi-amber"><i class="bi bi-briefcase"></i></span><div><small>Total deals</small><strong>{{ service.deals().length }}</strong><em>Across all stages</em></div></article>
+</section>
+<section class="pipeline-section">
+  <div class="pipeline-title"><div><h3>Deal board</h3><p>Move a deal between stages using its stage selector.</p></div><span class="board-total">{{ service.deals().length }} deals <i class="bi bi-dot"></i> {{ openValue | currency:'INR':'symbol':'1.0-0' }} open</span></div>
+  <div class="kanban-board">
+    @for (stage of stages; track stage) {
+      <div class="kanban-column">
+        <div class="column-heading"><span class="stage-indicator" [class]="stage.toLowerCase().replace(' ', '-')"></span><strong>{{ stage }}</strong><span class="column-count">{{ dealsIn(stage).length }}</span><span class="column-value">{{ stageValue(stage) | currency:'INR':'symbol':'1.0-0' }}</span></div>
+        <div class="deal-stack">
+          @for (deal of dealsIn(stage); track deal.id) {
+            <article class="deal-card">
+              <div class="deal-card-top"><span class="deal-company-avatar">{{ shortName(deal.customer) }}</span><button class="deal-more" aria-label="Deal actions" [attr.aria-label]="'Edit ' + deal.title" (click)="openEdit(deal)"><i class="bi bi-pencil"></i></button></div>
+              <strong class="deal-title">{{ deal.title }}</strong><span class="deal-customer">{{ deal.customer }}</span>
+              <div class="deal-value">{{ deal.value | currency:'INR':'symbol':'1.0-0' }}</div>
+              <div class="deal-meta"><span><i class="bi bi-person"></i> {{ deal.owner.split(' ')[0] }}</span><span><i class="bi bi-calendar3"></i> {{ deal.closeDate | date:'MMM d' }}</span></div>
+              <div class="deal-footer"><select [value]="deal.stage" (change)="updateStage(deal, $any($event.target).value)" [attr.aria-label]="'Update stage for ' + deal.title">@for (option of stages; track option) { <option [value]="option">{{ option }}</option> }</select><button class="deal-delete" title="Delete deal" aria-label="Delete deal" (click)="delete(deal)"><i class="bi bi-trash3"></i></button></div>
+            </article>
+          } @empty { <div class="column-empty">No deals here yet.</div> }
+        </div>
+      </div>
+    }
+  </div>
+</section>
+@if (modalOpen) { <div class="modal-backdrop" (click)="modalOpen = false"><section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="deal-modal-title" (click)="$event.stopPropagation()">
+  <header class="modal-header"><div><h3 id="deal-modal-title">{{ editingId ? 'Edit deal' : 'Add a deal' }}</h3><p>Capture value, ownership and expected close date.</p></div><button class="modal-close" aria-label="Close dialog" (click)="modalOpen = false"><i class="bi bi-x-lg"></i></button></header>
+  <form [formGroup]="form" (ngSubmit)="save()"><div class="modal-body">
+    <div class="form-field"><label>Customer name <span>*</span></label><input class="form-control" formControlName="customer" placeholder="Customer or company"><small class="form-error" *ngIf="form.controls.customer.touched && form.controls.customer.invalid">Customer is required.</small></div>
+    <div class="form-field"><label>Deal title <span>*</span></label><input class="form-control" formControlName="title" placeholder="e.g. Enterprise CRM rollout"><small class="form-error" *ngIf="form.controls.title.touched && form.controls.title.invalid">Deal title is required.</small></div>
+    <div class="form-field"><label>Deal value (₹) <span>*</span></label><input class="form-control" type="number" min="1" formControlName="value" placeholder="250000"><small class="form-error" *ngIf="form.controls.value.touched && form.controls.value.invalid">Enter an amount above zero.</small></div>
+    <div class="form-field"><label>Assigned employee</label><select class="form-control" formControlName="owner">@for (employee of employees; track employee) { <option>{{ employee }}</option> }</select></div>
+    <div class="form-field"><label>Expected close date <span>*</span></label><input class="form-control" type="date" formControlName="closeDate"><small class="form-error" *ngIf="form.controls.closeDate.touched && form.controls.closeDate.invalid">Close date is required.</small></div>
+    <div class="form-field"><label>Stage</label><select class="form-control" formControlName="stage">@for (stage of stages; track stage) { <option>{{ stage }}</option> }</select></div>
+  </div><footer class="modal-footer"><button type="button" class="button-secondary" (click)="modalOpen = false">Cancel</button><button type="submit" class="button-primary">{{ editingId ? 'Save changes' : 'Add deal' }}</button></footer></form>
+</section></div> }

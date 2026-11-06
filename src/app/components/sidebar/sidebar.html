@@ -1,0 +1,28 @@
+<div class="sidebar-backdrop" [class.visible]="mobileOpen" (click)="closeMenu.emit()"></div>
+<aside class="sidebar" [class.open]="mobileOpen">
+  <a class="brand" routerLink="/dashboard" (click)="closeMenu.emit()">
+    <span class="brand-mark"><i class="bi bi-layers-half"></i></span>
+    <span>Omni<span class="brand-light">CRM</span><small>SALES WORKSPACE</small></span>
+  </a>
+  <div class="workspace-label">WORKSPACE</div>
+  <nav aria-label="Main navigation">
+    @for (link of links; track link.path) {
+      <a class="nav-link" [routerLink]="link.path" routerLinkActive="active" (click)="closeMenu.emit()">
+        <i class="bi {{ link.icon }}"></i><span>{{ link.label }}</span>
+        @if (link.label === 'Tasks & Follow-ups' && pendingTaskCount > 0) { <span class="nav-count">{{ pendingTaskCount }}</span> }
+      </a>
+    }
+  </nav>
+  <div class="sidebar-bottom">
+    <div class="workspace-note">
+      <span class="workspace-note-icon"><i class="bi bi-database"></i></span>
+      <strong>Demo workspace</strong>
+      <p>Your records are saved in this browser.</p>
+    </div>
+    <div class="sidebar-user">
+      <span class="avatar avatar-indigo">{{ userInitials }}</span>
+      <span class="user-meta"><strong>{{ auth.currentUser.name }}</strong><small>{{ auth.currentUser.email }}</small></span>
+      <i class="bi bi-three-dots"></i>
+    </div>
+  </div>
+</aside>
